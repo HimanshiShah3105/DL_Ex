@@ -13,11 +13,11 @@ class FullyConnected(BaseLayer):
         self.input_tensor = input_tensor
         self.input_tensor = np.random.rand(self.batch_size, self.input_size)
         
-    def set_opt(self):
-        pass
+    def set_opt(self, _optimizer):
+        self._optimizer = _optimizer
     
     def get_opt(self):
-        pass
+        return self.set_opt()
     
     optimizer = property(get_opt, set_opt)
     
