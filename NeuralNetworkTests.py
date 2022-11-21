@@ -2,7 +2,7 @@ import unittest
 from Layers import *
 from Optimization import *
 import numpy as np
-import NeuralNetwork
+# import NeuralNetwork
 import matplotlib.pyplot as plt
 import tabulate
 import argparse
@@ -35,6 +35,7 @@ class TestFullyConnected1(unittest.TestCase):
         layer = FullyConnected.FullyConnected(self.input_size, self.output_size)
         output_tensor = layer.forward(self.input_tensor)
         # print(output_tensor.shape)
+        # print(self.inp ut_size)
         error_tensor = layer.backward(output_tensor)
         self.assertEqual(error_tensor.shape[1], self.input_size)
         self.assertEqual(error_tensor.shape[0], self.batch_size)

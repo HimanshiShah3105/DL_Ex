@@ -1,4 +1,5 @@
-from Base import *
+from Layers.Base import *
+from Optimization.Optimizers import Sgd
 import numpy as np
 
 class FullyConnected(BaseLayer):
@@ -7,21 +8,27 @@ class FullyConnected(BaseLayer):
         self.output_size = output_size
         super().__init__()
         self.trainable = True
-        weights = np.random.rand(self.input_size, self.output_size) # not sure if this is right 
-        
+        self.weights = np.random.uniform(size = (self.input_size+1, self.output_size), low = 0, high = 1)
     def forward(self, input_tensor):
-        self.input_tensor = input_tensor
-        self.input_tensor = np.random.rand(self.batch_size, self.input_size)
+        self.input_tensor = np.c_[ input_tensor, np.ones(input_tensor.shape[0]) ]    
+        self.output=np.dot(self.input_tensor,self.weights)
+        return self.output
         
-    def set_opt(self):
-        pass
+    def set_opt(self,_optimizer):
+        self._optimizer=_optimizer
     
     def get_opt(self):
-        pass
+        return self._optimizer
     
     optimizer = property(get_opt, set_opt)
     
     def backward(self, error_tensor):
-        pass
-        
-        
+        print(error_tensor.shape)
+        input_error = np.dot(error_tensor, self.weights.T)
+        gradient_tensor = np.dot(self.input_tensor.T, error_tensor)
+        # self.weights[:-1] -= self.learning_rate * weights_error
+        # # print(self.weights[self.input_size:,:].shape)
+        # self.weights[self.input_size:,:]-= self.learning_rate * error_tensor[-1:,:]
+        self.weights=Sgd.calculate_update(self.weights,gradient_tensor)
+        return input_error
+    # gradient_weights=
