@@ -14,11 +14,11 @@ class FullyConnected(BaseLayer):
         self.output=np.dot(self.input_tensor,self.weights)
         return self.output
         
-    def set_opt(self,_optimizer):
-        self._optimizer=_optimizer
+    def set_opt(self):
+        pass
     
     def get_opt(self):
-        return self._optimizer
+        pass
     
     optimizer = property(get_opt, set_opt)
     
